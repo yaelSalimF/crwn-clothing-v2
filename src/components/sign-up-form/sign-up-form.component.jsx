@@ -40,7 +40,8 @@ const SignUpForm = () => {
         password
       );
       if (!user) return;
-      const userDocRef = await createUserDocumentFromAuth(user, {
+
+      await createUserDocumentFromAuth(user, {
         displayName,
       });
       resetFormFields();
