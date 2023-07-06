@@ -1,4 +1,4 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ReactComponent as CrwnLogo } from "../../assets/crown.svg";
 import CartIcon from "../../components/cart-icon/cart-icon.component";
@@ -11,10 +11,16 @@ import { CartContext } from "../../context/cart.context";
 
 const Navigation = () => {
   const { currentUser } = useContext(UserContext);
-  const { isOpen } = useContext(CartContext);
+  const { isOpen, setIsOpen } = useContext(CartContext);
+
   return (
     <>
-      <div className="navigation">
+      <div
+        className="navigation"
+        onClick={() => {
+          if (isOpen) setIsOpen(false);
+        }}
+      >
         <Link className="logo-container" to="/">
           <CrwnLogo className="logo" />
         </Link>
