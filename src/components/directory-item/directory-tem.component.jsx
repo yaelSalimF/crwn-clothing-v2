@@ -7,7 +7,7 @@ const DirectoryItem = ({ category }) => {
   return (
     <div
       className="directory-item-container"
-      onClick={() => navigate(`shop/${title}`)}
+      onClick={() => navigate(`shop/${title.toLowerCase()}`)}
     >
       <div
         className="background-image"
