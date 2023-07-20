@@ -1,25 +1,26 @@
-import { Outlet, Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { Outlet, Link } from "react-router-dom";
 import { ReactComponent as CrwnLogo } from "../../assets/crown.svg";
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 
 import "./navigation.styles.scss";
 import { signOutUser } from "../../utils/firebase.utils";
-import { CartContext } from "../../context/cart.context";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
+import { selectCartIsOpen } from "../../store/cart/cart.selector";
+import { setIsOpen } from "../../store/cart/cart.action";
 
 const Navigation = () => {
+  const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
-  const { isOpen, setIsOpen } = useContext(CartContext);
+  const isOpen = useSelector(selectCartIsOpen);
 
   return (
     <>
       <div
         className="navigation"
         onClick={() => {
-          if (isOpen) setIsOpen(false);
+          if (isOpen) dispatch(setIsOpen(false));
         }}
       >
         <Link className="logo-container" to="/">
