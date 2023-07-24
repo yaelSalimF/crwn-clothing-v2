@@ -14,7 +14,7 @@ import Authentication from "./routes/authentication/authentication.component";
 import Shop from "./routes/shop/shop.component";
 import Checkout from "./routes/checkout/checkout.component";
 import { setCurrentUser } from "./store/user/user.action";
-import { setCategories } from "./store/categories/category.action";
+import { fetchCategoriesAsync } from "./store/categories/category.action";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -30,11 +30,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const getCategoriesMap = async () => {
-      const categoriesArrray = await getCategoriesAndDocuments();
-      dispatch(setCategories(categoriesArrray));
-    };
-    getCategoriesMap();
+    dispatch(fetchCategoriesAsync());
   }, []);
 
   return (
