@@ -4,16 +4,20 @@ import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 
 import "./navigation.styles.scss";
-import { signOutUser } from "../../utils/firebase.utils";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { selectCartIsOpen } from "../../store/cart/cart.selector";
 import { setIsOpen } from "../../store/cart/cart.action";
+import { signOutStart } from "../../store/user/user.action";
 
 const Navigation = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
   const isOpen = useSelector(selectCartIsOpen);
+
+  const signOutHandler = () => {
+    dispatch(signOutStart());
+  };
 
   return (
     <>
@@ -31,7 +35,7 @@ const Navigation = () => {
             SHOP
           </Link>
           {currentUser ? (
-            <span className="nav-link" onClick={signOutUser}>
+            <span className="nav-link" onClick={signOutHandler}>
               SIGN OUT
             </span>
           ) : (

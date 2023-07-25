@@ -6,37 +6,26 @@ import {
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import logger from "redux-logger";
-import thunk from "redux-thunk";
+// import thunk from "redux-thunk";
+// saga replaces thunk
+import createSagaMiddleware from "redux-saga";
+import { rootSaga } from "./root-saga";
 
 import { rootReducer } from "./root-reducer";
-
-// how to write a custom middleware
-// const loggerMiddleware = (store) => (next) => (action) => {
-//   if (!action.type) {
-//     return next(action);
-//   }
-
-//   console.log("type", action.type);
-//   console.log("payload", action.payload);
-//   console.log("currentState", store.getState());
-
-//   next(action);
-
-//   console.log("next state: ", store.getState());
-// };
 
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["user"],
   whitelist: ["cart"],
 };
+
+const sagaMiddleware = createSagaMiddleware();
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const middleWares = [
   process.env.NODE_ENV !== "production" && logger,
-  thunk,
+  sagaMiddleware,
 ].filter(Boolean); // dont want to return false as a middleware so filter(Boolean) filters anything that isnt true
 
 const composeEnhancer =
@@ -52,5 +41,7 @@ export const store = createStore(
   undefined,
   composedEnhancers
 );
+
+sagaMiddleware.run(rootSaga);
 
 export const persistor = persistStore(store);
